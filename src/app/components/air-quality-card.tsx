@@ -1,42 +1,75 @@
 import { AirQualityData } from '@/types/air-quality-data';
-import { AirQualityChart } from './air-quality-chart';
+import { AirQualityItemChart } from './air-quality-chart';
 
 interface AirQualityCardProps {
   item: AirQualityData;
 }
 
 export const AirQualityCard = ({ item }: AirQualityCardProps) => {
+  const pollutantInfo = [
+    {
+      label: '미세먼지(PM10)',
+      value: Number(item.pm10Value),
+      grade: item.pm10Grade,
+      unit: '㎍/㎥',
+      standard: 80,
+    },
+    {
+      label: '초미세먼지(PM2.5)',
+      value: Number(item.pm25Value),
+      grade: item.pm25Grade,
+      unit: '㎍/㎥',
+      standard: 35,
+    },
+    {
+      label: '오존(O₃)',
+      value: Number(item.o3Value),
+      grade: item.o3Grade,
+      unit: 'ppm',
+      standard: 0.1,
+    },
+    {
+      label: '이산화질소(NO₂)',
+      value: Number(item.no2Value),
+      grade: item.no2Grade,
+      unit: 'ppm',
+      standard: 0.06,
+    },
+    {
+      label: '일산화탄소(CO)',
+      value: Number(item.coValue),
+      grade: item.coGrade,
+      unit: 'ppm',
+      standard: 9,
+    },
+    {
+      label: '아황산가스(SO₂)',
+      value: Number(item.so2Value),
+      grade: item.so2Grade,
+      unit: 'ppm',
+      standard: 0.02,
+    },
+  ];
+
   return (
-    <div className="flex h-auto w-full flex-col">
+    <div className="flex h-auto w-full flex-col gap-4">
       <div>
-        <h2>{item.stationName} 측정소</h2>
-        <p>측정 시각: {item.dataTime}</p>
+        <h2 className="text-xl font-semibold">{item.stationName} 측정소</h2>
+        <p className="text-sm text-gray-500">측정 시각: {item.dataTime}</p>
       </div>
 
-      <AirQualityChart item={item} />
-      {/* <ul>
-        <li>
-          통합대기환경지수 (KHAI): {item.khaiValue} (등급 {item.khaiGrade})
-        </li>
-        <li>
-          미세먼지(PM10): {item.pm10Value}㎍/㎥ (등급 {item.pm10Grade})
-        </li>
-        <li>
-          초미세먼지(PM2.5): {item.pm25Value}㎍/㎥ (등급 {item.pm25Grade})
-        </li>
-        <li>
-          오존(O₃): {item.o3Value}ppm (등급 {item.o3Grade})
-        </li>
-        <li>
-          이산화질소(NO₂): {item.no2Value}ppm (등급 {item.no2Grade})
-        </li>
-        <li>
-          일산화탄소(CO): {item.coValue}ppm (등급 {item.coGrade})
-        </li>
-        <li>
-          아황산가스(SO₂): {item.so2Value}ppm (등급 {item.so2Grade})
-        </li>
-      </ul> */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {pollutantInfo.map((info) => (
+          <AirQualityItemChart
+            key={info.label}
+            label={info.label}
+            value={info.value}
+            grade={info.grade}
+            unit={info.unit}
+            standard={info.standard}
+          />
+        ))}
+      </div>
     </div>
   );
 };

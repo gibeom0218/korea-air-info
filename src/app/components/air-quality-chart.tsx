@@ -1,68 +1,79 @@
 'use client';
 
-import { Bar } from 'react-chartjs-2';
-import { AirQualityData } from '@/types/air-quality-data';
 import '@/app/lib/chart';
+import { Bar } from 'react-chartjs-2';
 
 interface Props {
-  item: AirQualityData;
+  label: string;
+  value: number;
+  grade: string | null;
+  unit: string;
+  standard: number;
 }
 
-// 각 항목과 기준치 정의
-const pollutantKeys = [
-  { label: '미세먼지(PM10)', valueKey: 'pm10Value', standard: 80 },
-  { label: '초미세먼지(PM2.5)', valueKey: 'pm25Value', standard: 35 },
-  { label: '오존(O₃)', valueKey: 'o3Value', standard: 0.1 },
-  { label: '이산화질소(NO₂)', valueKey: 'no2Value', standard: 0.06 },
-  { label: '일산화탄소(CO)', valueKey: 'coValue', standard: 9 },
-  { label: '아황산가스(SO₂)', valueKey: 'so2Value', standard: 0.02 },
-];
+const getGradeInfo = (grade: string | null) => {
+  switch (grade) {
+    case '1':
+      return { label: '좋음', color: 'bg-blue-400' };
+    case '2':
+      return { label: '보통', color: 'bg-green-400' };
+    case '3':
+      return { label: '나쁨', color: 'bg-yellow-400' };
+    case '4':
+      return { label: '매우 나쁨', color: 'bg-red-500' };
+    default:
+      return { label: '정보 없음', color: 'bg-gray-300' };
+  }
+};
 
-export const AirQualityChart = ({ item }: Props) => {
-  const labels = pollutantKeys.map((p) => p.label);
-  const dataValues = pollutantKeys.map((p) =>
-    Number(item[p.valueKey as keyof AirQualityData]),
-  );
-  const standards = pollutantKeys.map((p) => p.standard);
+export const AirQualityItemChart = ({
+  label,
+  value,
+  grade,
+  unit,
+  standard,
+}: Props) => {
+  const { label: gradeLabel, color } = getGradeInfo(grade);
 
   return (
-    <div className="flex w-full">
+    <div className="rounded-xl border p-4 shadow-sm">
+      <div className="mb-2 flex items-center justify-between">
+        <div className="font-medium">{label}</div>
+        <div className={`rounded-full px-2 py-1 text-sm text-white ${color}`}>
+          {gradeLabel}
+        </div>
+      </div>
+
       <Bar
         data={{
-          labels,
+          labels: ['측정값', '기준치'],
           datasets: [
             {
-              label: '측정값',
-              data: dataValues,
-              backgroundColor: dataValues.map((v, i) =>
-                v > standards[i]
-                  ? 'rgba(255, 99, 132, 0.6)'
-                  : 'rgba(54, 162, 235, 0.6)',
-              ),
-            },
-            {
-              type: 'bar',
-              label: '기준치',
-              data: standards,
-              borderColor: 'gray',
-              borderWidth: 2,
+              label,
+              data: [value, standard],
+              backgroundColor: [
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(200, 200, 200, 0.5)',
+              ],
             },
           ],
         }}
         options={{
-          responsive: true,
+          indexAxis: 'y' as const,
           plugins: {
-            legend: {
-              position: 'top' as const,
-            },
+            legend: { display: false },
           },
           scales: {
-            y: {
+            x: {
               beginAtZero: true,
             },
           },
         }}
       />
+
+      <p className="mt-2 text-sm text-gray-600">
+        현재 수치: <strong>{value}</strong> {unit}
+      </p>
     </div>
   );
 };
