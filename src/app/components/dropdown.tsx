@@ -28,7 +28,7 @@ export function Dropdown<T extends string | number>({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
-        className="rounded border px-2 py-1 text-sm"
+        className="rounded border px-2 py-1 focus:outline-none"
       >
         {options.map((opt) => (
           <option key={String(opt)} value={opt}>

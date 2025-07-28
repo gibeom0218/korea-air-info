@@ -53,9 +53,13 @@ export const AirQualityCard = ({ item }: AirQualityCardProps) => {
 
   return (
     <div className="flex h-auto w-full flex-col gap-4">
-      <div>
-        <h2 className="text-xl font-semibold">{item.stationName} 측정소</h2>
-        <p className="text-sm text-gray-500">측정 시각: {item.dataTime}</p>
+      <div className="mt-3 flex flex-col">
+        <h2 className="text-lg font-semibold md:text-xl">
+          {item.stationName} 측정소
+        </h2>
+        <p className="text-xs text-gray-500 md:text-sm">
+          측정 시각: {item.dataTime}
+        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

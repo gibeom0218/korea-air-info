@@ -36,23 +36,28 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-5">
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-2xl font-bold md:text-3xl">
         {selectedSido} {selectedStation} 대기질 정보
       </h1>
-      <Dropdown
-        id="sido-select"
-        label="시도 선택 : "
-        value={selectedSido}
-        onChange={(val) => setSelectedSido(val)}
-        options={SIDO_LIST}
-      />
-      <Dropdown
-        id="station-select"
-        label="측정소 선택 : "
-        value={selectedStation}
-        onChange={(val) => setSelectedStation(val)}
-        options={stationList}
-      />
+      <div className="flex flex-row items-center gap-3 md:gap-7">
+        <Dropdown
+          id="sido-select"
+          label="시도 : "
+          value={selectedSido}
+          onChange={(val) => setSelectedSido(val)}
+          options={SIDO_LIST}
+          className="text-[14px] md:text-[16px]"
+        />
+        <Dropdown
+          id="station-select"
+          label="측정소 : "
+          value={selectedStation}
+          onChange={(val) => setSelectedStation(val)}
+          options={stationList}
+          className="text-[14px] md:text-[16px]"
+        />
+      </div>
+
       <AirQualityCard item={filteredData[0]} />
     </div>
   );
