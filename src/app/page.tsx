@@ -30,7 +30,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold">{selectedSido} 대기질 정보</h1>
       <SidoDropdown onChangeSido={setSelectedSido} />
       {data.map((item, idx) => (
-        <AirQualityCard key={idx} item={item} idx={idx} />
+        <AirQualityCard key={idx} item={item} />
       ))}
     </div>
   );
