@@ -1,3 +1,5 @@
+import { AlertCircle, Info, Smile, Frown } from 'lucide-react';
+
 interface Props {
   khaiGrade: string | number;
 }
@@ -17,31 +19,62 @@ function getAirQualitySummary(khaiGrade: number): string {
   }
 }
 
-function getTextColorClass(khaiGrade: number): string {
+function getStyles(khaiGrade: number) {
   switch (khaiGrade) {
     case 1:
-      return 'text-blue-600';
+      return {
+        textColor: 'text-blue-700',
+        bgColor: 'bg-blue-100',
+        Icon: Smile,
+        iconColor: 'text-blue-500',
+      };
     case 2:
-      return 'text-green-600';
+      return {
+        textColor: 'text-green-700',
+        bgColor: 'bg-green-100',
+        Icon: Info,
+        iconColor: 'text-green-500',
+      };
     case 3:
-      return 'text-yellow-600';
+      return {
+        textColor: 'text-yellow-700',
+        bgColor: 'bg-yellow-100',
+        Icon: AlertCircle,
+        iconColor: 'text-yellow-500',
+      };
     case 4:
-      return 'text-red-600';
+      return {
+        textColor: 'text-red-700',
+        bgColor: 'bg-red-100',
+        Icon: Frown,
+        iconColor: 'text-red-500',
+      };
     default:
-      return 'text-gray-600';
+      return {
+        textColor: 'text-gray-700',
+        bgColor: 'bg-gray-100',
+        Icon: Info,
+        iconColor: 'text-gray-500',
+      };
   }
 }
 
 export const AirQualitySummary = ({ khaiGrade }: Props) => {
   const grade = Number(khaiGrade);
   const summary = getAirQualitySummary(grade);
-  const textColorClass = getTextColorClass(grade);
+  const { textColor, bgColor, Icon, iconColor } = getStyles(grade);
 
   return (
     <div
-      className={`w-full rounded-xl bg-gray-100 p-4 text-center text-sm md:text-base ${textColorClass}`}
+      className={`flex w-full items-center gap-3 rounded-xl border p-4 shadow-sm ${bgColor} ${textColor}`}
     >
-      {summary}
+      <Icon className={`h-6 w-6 ${iconColor}`} />
+      <div className="flex flex-col">
+        <span className="text-base font-semibold md:text-lg">
+          오늘의 대기질 요약
+        </span>
+        <span className="text-sm md:text-base">{summary}</span>
+      </div>
     </div>
   );
 };
