@@ -58,7 +58,6 @@ export default function Home() {
           className="text-[14px] md:text-[16px]"
         />
       </div>
-      {/* 여기에 음 각 대기 정보를 측정해서 요약해주는 컴포넌트가 있었으면 좋겠음 w-full을 통한 반응형으로 */}
       <AirQualitySummary khaiGrade={filteredData[0].khaiGrade} />
       <AirQualityCard item={filteredData[0]} />
     </div>
